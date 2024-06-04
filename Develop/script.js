@@ -4,34 +4,52 @@ const addEmployeesBtn = document.querySelector('#add-employees-btn');
 // Collect employee data
 const collectEmployees = function() {
   
-  const info = ["firstName", "lastName", "salary"];
+  const employees = [];
 
   let collectInfo = true;
 
-  while (collectInfo == true) {
-    let firstName = prompt("Enter First Name:")
-    let lastName = prompt("Enter Last Name:")
-    let salary = prompt("Enter Salary:")
+  while (collectInfo) {
+    var firstName = prompt("Enter First Name:");
+    var lastName = prompt("Enter Last Name:");
+    var salary = prompt("Enter Salary:");
 
-    collectInfo = window.confirm("Do you want to add another employee?")
+    //Check if salary is a valid number
+    if (isNaN(parseFloat(salary))) {
+      //Default to $0 if no valid number is entered 
+      salary= 0;
+    }
 
-    return["firstName","lastName","salary"];
+    employees.push({ firstName, lastName, salary});
+
+    collectInfo = window.confirm("Do you want to add another employee?");
+    if (!collectInfo) break;
   }
 
-  // TODO: Get user input to create and return an array of employee objects
-
-}
+  return employees;
+  }
 
 // Display the average salary
 const displayAverageSalary = function(employeesArray) {
-  // TODO: Calculate and display the average salary
+  let totalSalary = 0;
+
+  //Calculate the total salary of employees
+  for (const employee of employeesArray) {
+    totalSalary += parseFloat(employee.salary);
+  }
+  //Calculate average salary of the total
+  const averageSalary = totalSalary / employeesArray.length;
+
+  //Display the average salary computed in the console.
+  console.log(`Average Salary: ${averageSalary.toLocaleString("en-US", { style: "currency", currency: "USD" })}`);
 }
 
 // Select a random employee
 const getRandomEmployee = function(employeesArray) {
-  const index = Math.floor(Math.random() * employeesArray);
+  const index = Math.floor(Math.random() * employeesArray.length);
+  const randomEmployee = employeesArray[index];
 
-  // TODO: Select and display a random employee
+  // Display the random employee information
+  console.log(`Congrats to ${randomEmployee.firstName} ${randomEmployee.lastName} our random drawing winner!`);
 }
 
 /*
